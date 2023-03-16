@@ -2,9 +2,9 @@
 
 ## Screenshots
 
-![View1]("img/1.png")
+![View1](img/1.png)
 
-![View2]("img/2.png")
+![View2](img/2.png)
 
 
 ## introduction
