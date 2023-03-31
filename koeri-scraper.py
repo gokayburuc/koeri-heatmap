@@ -1,15 +1,16 @@
 #! /usr/bin/python3
 
 import pandas as pd
-import csv
-import json
+# import csv
+# import json
 from requests import get
 from bs4 import BeautifulSoup
 from time import sleep
-from datetime import time, timedelta
+# from datetime import time, timedelta
+# import sqlite3
 
 
-url = 'http://www.koeri.boun.edu.tr/scripts/lst1.asp'
+url = 'http://www.koeri.boun.edu.tr/scripts/lst0.asp'
 USER_AGENT = {
     "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/110.0"}
 
@@ -55,8 +56,8 @@ if __name__ == "__main__":
     earthquake_data = x.find("pre").text
 
     raw_lines = earthquake_data.splitlines()
-    # print(raw_lines[8])
 
+    # empty dataset 
     dataset = []
 
     for x in raw_lines:
@@ -70,11 +71,11 @@ if __name__ == "__main__":
         mw = x[65:68]
         place = x[70:120]
 
-        # strip
+        # strip values
         place = place.strip()
 
+        # data row
         data = [date, time, latitude, altitude, deepness, md, mw, ml, place]
-
         dataset.append(data)
 
         for x in dataset:
