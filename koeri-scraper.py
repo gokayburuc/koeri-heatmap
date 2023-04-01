@@ -1,20 +1,15 @@
 #! /usr/bin/python3
 
 import pandas as pd
-# import csv
-# import json
 from requests import get
 from bs4 import BeautifulSoup
 from time import sleep
-# from datetime import time, timedelta
-# import sqlite3
-
 
 url = 'http://www.koeri.boun.edu.tr/scripts/lst0.asp'
 USER_AGENT = {
     "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/110.0"}
 
-# GET CONTENT
+# SECTION : Get Content
 
 
 def GetContent(url):
@@ -50,21 +45,17 @@ if __name__ == "__main__":
     cnt = GetContent(url)
 
     x = bs_obj(html_content=cnt)
-
-    # print(x.find("pre").text)
-
     earthquake_data = x.find("pre").text
-
     raw_lines = earthquake_data.splitlines()
 
-    # empty dataset 
+    # empty dataset
     dataset = []
 
     for x in raw_lines:
         date = x[0:10]
         time = x[11:19]
         latitude = x[21:29]
-        altitude = x[31:38]
+        longitude = x[31:38]
         deepness = x[46:50]
         md = x[55:58]
         ml = x[60:63]
@@ -75,7 +66,7 @@ if __name__ == "__main__":
         place = place.strip()
 
         # data row
-        data = [date, time, latitude, altitude, deepness, md, mw, ml, place]
+        data = [date, time, latitude, longtitude, deepness, md, mw, ml, place]
         dataset.append(data)
 
         for x in dataset:
@@ -87,27 +78,11 @@ if __name__ == "__main__":
     # dataframe
  # TODO : column name error fix
     df = pd.DataFrame(dataset, columns=[
-                      "date", "time", "latitude", "altitude", "deepness", "md", "ml", "mw", "place"])
+                      "date", "time", "latitude", "longitude", "deepness", "md", "ml", "mw", "place"])
 
-    # df = pd.DataFrame(dataset)
     print(df)
 
     df = df[5:]
 
     # save to csv
     df.to_csv("earthquake_data.csv")
-
-    # save to sql
-    # import sqlite3
-    # conn = sqlite3.connect("koeri.sqlite")
-
-    # try:
-    #     df.to_sql(con=conn, name="tb_11_03_2023")
-    # except Exception as e:
-    #     print(e)
-    #     pass
-    # finally:
-    #     conn.close()
-
-    # save to json
-    # df.to_json()

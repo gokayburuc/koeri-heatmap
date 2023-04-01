@@ -1,12 +1,5 @@
 #! /usr/bin/python3
 
-# import pandas as pd
-# df = pd.read_csv("earthquake_data.csv")
-# depremler = df[["latitude", "altitude", "mw"]]
-# print(depremler)
-# print(df.columns)
-
-
 import csv
 
 dataset = []
@@ -14,10 +7,7 @@ dataset = []
 with open("map_data.csv", "r") as rf:
     rd = csv.reader(rf)
     for row in rd:
-        # print(row)
         dataset.append(row)
-
-# print(dataset)
 
 data = [r[1:4] for r in dataset]
 print(data)
@@ -35,7 +25,6 @@ def CleanData():
     with open("map_data.csv", "r") as rf:
         rd = csv.reader(rf)
         for row in rd:
-            # print(row)
             dataset.append(row)
 
     raw_data = [r[1:4] for r in dataset]

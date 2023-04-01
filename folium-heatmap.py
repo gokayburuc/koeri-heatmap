@@ -5,13 +5,13 @@ import csv
 import folium
 from folium.plugins import HeatMap
 
-
+# folium map object
 myMap = folium.Map(location=[38.963745, 35.243322000000035],
                    zoom_start=6)
 
 # myMap.show_in_browser()
 df = pd.read_csv("earthquake_data.csv")
-depremler = df[["latitude", "altitude", "mw"]]
+depremler = df[["latitude", "longitude", "mw"]]
 
 # dataframe to list
 depremler.to_csv("map_data.csv")
