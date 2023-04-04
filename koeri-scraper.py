@@ -15,11 +15,9 @@ USER_AGENT = {
 def GetContent(url):
     try:
         response = get(url=url, params=USER_AGENT)
-
     except Exception as e:
         print(e)
         pass
-
     finally:
         print(f"SERVER RESPONSE: {response.status_code}")
         if response.status_code == 200:
@@ -66,7 +64,7 @@ if __name__ == "__main__":
         place = place.strip()
 
         # data row
-        data = [date, time, latitude, longtitude, deepness, md, mw, ml, place]
+        data = [date, time, latitude, longitude, deepness, md, mw, ml, place]
         dataset.append(data)
 
         for x in dataset:
