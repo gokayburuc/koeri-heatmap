@@ -31,7 +31,20 @@ Earthquake Heatmap Generator using bs4 & Folium
 
 ## Usage
 
-Open Your Terminal and paste code given below:
+## Bash Execution 
+
+Open Your Terminal and run the heatmap.sh file
+
+```bash
+
+sh heatmap.sh
+
+```
+
+
+## Manual Execution
+
+Open Your Terminal and paste codes given below:
 
 ### Scraper (Data Miner):
 
@@ -50,4 +63,6 @@ python3 folium-heatmap.py
 ```bash
 firefox output.html
 ```
+
+
 
