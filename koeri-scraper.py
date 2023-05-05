@@ -73,10 +73,11 @@ if __name__ == "__main__":
             else:
                 pass
 
-    # dataframe
+ # dataframe
  # TODO : column name error fix
+
     df = pd.DataFrame(dataset, columns=[
-                      "date", "time", "latitude", "longitude", "deepness", "md", "ml", "mw", "place"])
+        "date", "time", "latitude", "longitude", "deepness", "md", "ml", "mw", "place"])
 
     print(df)
 
