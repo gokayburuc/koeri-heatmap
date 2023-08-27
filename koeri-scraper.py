@@ -4,16 +4,17 @@ import pandas as pd
 from requests import get
 from bs4 import BeautifulSoup
 from time import sleep
+import random
 
 url = 'http://www.koeri.boun.edu.tr/scripts/lst0.asp'
 USER_AGENT = {
     "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/110.0"}
 
-# SECTION : Get Content
-
+# INFO: Get Content
 
 def GetContent(url):
     try:
+        # FIXME: random user ager chooser
         response = get(url=url, params=USER_AGENT)
     except Exception as e:
         print(e)

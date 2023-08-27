@@ -15,7 +15,8 @@ print(data)
 for x in data:
     try:
         print([float(x[0]), float(x[1]), float(x[2])])
-    except:
+    except Exception as e:
+        raise e 
         pass
 
 
