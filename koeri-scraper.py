@@ -4,17 +4,18 @@ import pandas as pd
 from requests import get
 from bs4 import BeautifulSoup
 from time import sleep
-import random
+from user_agent import RandomAgentChooser
+
 
 url = 'http://www.koeri.boun.edu.tr/scripts/lst0.asp'
-USER_AGENT = {
-    "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/110.0"}
+# USER_AGENT = {
+#     "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/110.0"}
+#
 
 # INFO: Get Content
-
 def GetContent(url):
     try:
-        # FIXME: random user ager chooser
+        USER_AGENT = RandomAgentChooser()
         response = get(url=url, params=USER_AGENT)
     except Exception as e:
         print(e)
@@ -32,7 +33,7 @@ def GetContent(url):
 
     return response.content
 
-
+# INFO: Soup Object
 def bs_obj(html_content):
     bs_obj = BeautifulSoup(markup=html_content, features="lxml")
     return bs_obj
@@ -51,6 +52,7 @@ if __name__ == "__main__":
     dataset = []
 
     for x in raw_lines:
+        # INFO: enlem boylam gün zaman derinlik şiddet ve yer degerleri 
         date = x[0:10]
         time = x[11:19]
         latitude = x[21:29]
