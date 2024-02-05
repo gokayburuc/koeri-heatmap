@@ -1,5 +1,7 @@
 import random
 
+# RANDOM USER AGENT GENERATOR
+
 
 def RandomAgentChooser():
     with open("user_agents.txt", "r") as rf:

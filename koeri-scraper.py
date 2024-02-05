@@ -8,11 +8,18 @@ from user_agent import RandomAgentChooser
 
 
 url = 'http://www.koeri.boun.edu.tr/scripts/lst0.asp'
+# noqa: E501
 # USER_AGENT = {
-#     "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/110.0"}
-#
+#     "User-Agent": "Mozilla/5.0 (X11
+#                                 Ubuntu
+#                                 Linux x86_64
+#                                 rv: 109.0)
+#     Gecko/20100101 Firefox/110.0"
+# }
 
 # INFO: Get Content
+
+
 def GetContent(url):
     try:
         USER_AGENT = RandomAgentChooser()
@@ -34,6 +41,8 @@ def GetContent(url):
     return response.content
 
 # INFO: Soup Object
+
+
 def bs_obj(html_content):
     bs_obj = BeautifulSoup(markup=html_content, features="lxml")
     return bs_obj
@@ -52,7 +61,7 @@ if __name__ == "__main__":
     dataset = []
 
     for x in raw_lines:
-        # INFO: enlem boylam gün zaman derinlik şiddet ve yer degerleri 
+        # INFO: enlem boylam gün zaman derinlik şiddet ve yer degerleri
         date = x[0:10]
         time = x[11:19]
         latitude = x[21:29]
@@ -75,9 +84,8 @@ if __name__ == "__main__":
                 dataset.remove(x)
             else:
                 pass
-
- # dataframe
- # TODO : column name error fix
+# dataframe
+# TODO : column name error fix
 
     df = pd.DataFrame(dataset, columns=[
         "date", "time", "latitude", "longitude", "deepness", "md", "ml", "mw", "place"])

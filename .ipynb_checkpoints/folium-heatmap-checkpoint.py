@@ -34,8 +34,7 @@ def CleanData():
         try:
             # print([float(x[0]), float(x[1]), float(x[2])])
             data.append([float(x[0]), float(x[1]), float(x[2])])
-        except Exception as e:
-            raise e
+        except:
             pass
 
     return data
