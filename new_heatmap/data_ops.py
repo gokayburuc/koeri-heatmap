@@ -1,5 +1,5 @@
 from pprint import pprint
-from rich import print 
+from rich import print
 
 # read content
 with open('eq_data.txt', 'r') as rf:

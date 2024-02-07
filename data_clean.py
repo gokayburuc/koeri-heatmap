@@ -1,7 +1,7 @@
 # /usr/bin/python3
 import csv
 
-import pandas 
+import pandas
 
 # data set oluştur
 dataset = []
