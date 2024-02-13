@@ -1,14 +1,24 @@
 #! /usr/bin/python3
 
-import pandas as pd
 from requests import get
 from bs4 import BeautifulSoup
 from time import sleep
 from user_agent import RandomAgentChooser
+from rich import print
+import requests
+
+# url = 'http://www.koeri.boun.edu.tr/scripts/lst7.asp'
+url = 'http://www.koeri.boun.edu.tr/scripts/lst7.asp'
 
 
-url = 'http://www.koeri.boun.edu.tr/scripts/lst0.asp'
-# noqa: E501
+def CheckURLExistence(url):
+    try:
+        response = requests.head(url)
+        return response.status_code == 200
+    except requests.ConnectionError:
+        return False
+
+
 # USER_AGENT = {
 #     "User-Agent": "Mozilla/5.0 (X11
 #                                 Ubuntu
@@ -24,75 +34,61 @@ def GetContent(url):
     try:
         USER_AGENT = RandomAgentChooser()
         response = get(url=url, params=USER_AGENT)
+        print(response.content)
+        return response.content
     except Exception as e:
         print(e)
         pass
     finally:
         print(f"SERVER RESPONSE: {response.status_code}")
-        if response.status_code == 200:
-            print("STATUS : OK")
-        elif response.status_code == 400:
-            print("STATUS : BAD REQUESTS")
-        elif response.status_code == 500:
-            print("STATUS : INTERNAL SERVER ERROR")
-        elif response.status_code == 503:
-            print("STATUS : SERVICE UNAVAILABLE")
 
-    return response.content
-
-# INFO: Soup Object
+# soup operations
 
 
-def bs_obj(html_content):
-    bs_obj = BeautifulSoup(markup=html_content, features="lxml")
-    return bs_obj
+def soup(content):
+    soup = BeautifulSoup(content, "lxml")
+    raw_data = soup.find("pre").text
+    raw_lines = raw_data.splitlines()
+
+    earthquake_data = []
+
+    for line in raw_lines:
+        row = {
+            "date": line[0:10],
+            "time": line[11:19],
+            "latitude": line[21:29],
+            "longitude": line[31:38],
+            "deepness": line[46:50],
+            "md": line[55:58],
+            "ml": line[60:63],
+            "mw": line[65:68],
+            "place": str(line[70:120]).strip(),
+        }
+        earthquake_data.append(row)
+
+    print(earthquake_data)
+
+    # # empty earthquake_data
+    # for x in earthquake_data:
+    #     if len(x) < 8:
+    #         earthquake_data.remove(x)
+    #     else:
+    #         pass
+    #
+    # columns = [
+    #     "date", "time", "latitude", "longitude",
+    #     "deepness", "md", "ml", "mw", "place"]
+    #
+    # df = pd.DataFrame(earthquake_data, columns=columns)
+    # df = df[5:]
+    #
+    # print(df.head())
+
+    # save to csv
+    # df.to_csv("earthquake_data.csv")
 
 
 if __name__ == "__main__":
-
     sleep(3)
-    cnt = GetContent(url)
-
-    x = bs_obj(html_content=cnt)
-    earthquake_data = x.find("pre").text
-    raw_lines = earthquake_data.splitlines()
-
-    # empty dataset
-    dataset = []
-
-    for x in raw_lines:
-        # INFO: enlem boylam gün zaman derinlik şiddet ve yer degerleri
-        date = x[0:10]
-        time = x[11:19]
-        latitude = x[21:29]
-        longitude = x[31:38]
-        deepness = x[46:50]
-        md = x[55:58]
-        ml = x[60:63]
-        mw = x[65:68]
-        place = x[70:120]
-
-        # strip values
-        place = place.strip()
-
-        # data row
-        data = [date, time, latitude, longitude, deepness, md, mw, ml, place]
-        dataset.append(data)
-
-        for x in dataset:
-            if len(x) < 8:
-                dataset.remove(x)
-            else:
-                pass
-# dataframe
-# TODO : column name error fix
-
-    df = pd.DataFrame(dataset, columns=[
-        "date", "time", "latitude", "longitude", "deepness", "md", "ml", "mw", "place"])
-
-    print(df)
-
-    df = df[5:]
-
-    # save to csv
-    df.to_csv("earthquake_data.csv")
+    content = GetContent(url)
+    soup(content)
